@@ -10,14 +10,14 @@ namespace Cafe_NET_API.Services
         private readonly ICafeRepository _cafeRepository;
         private readonly ICafeEmployeeRepository _cafeEmployeeRepository;
 
-        #region Cafe Services
-
         public CafeEmployeeService(IEmployeeRepository employeeRepository, ICafeRepository cafeRepository, ICafeEmployeeRepository cafeEmployeeRepository)
         {
             _employeeRepository = employeeRepository;
             _cafeRepository = cafeRepository;
             _cafeEmployeeRepository = cafeEmployeeRepository;
         }
+
+        #region Cafe Services
 
         public async Task<bool> CreateCafe(Cafe cafe)
         {

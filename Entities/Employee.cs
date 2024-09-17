@@ -30,6 +30,11 @@ namespace Cafe_NET_API.Entities
         public Gender Gender { get; set; }
     }
 
+    public class EmployeeCreateUpdate : Employee
+    {
+        public Guid Cafe_Id { get; set; }
+    }
+
     public class EmployeeDetail : Employee
     {
         public DateTime Start_Date { get; set; }
