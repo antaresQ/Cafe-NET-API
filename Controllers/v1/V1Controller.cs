@@ -49,7 +49,7 @@ namespace Cafe_NET_API.Controllers.v1
                 }
                 else
                 {
-                    throw new Exception("Please check Method & Employee Id");
+                    throw new Exception("Please check Method & Cafe Id");
                 }
             }
             catch (Exception ex)
