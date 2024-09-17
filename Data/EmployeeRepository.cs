@@ -18,8 +18,8 @@ namespace Cafe_NET_API.Data
         {
             string id = $"UI{Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()}";
 
-            string query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender)
-                                VALUES('{id}', '{employee.Name}', '{employee.Email_Address}', '{employee.Phone_Number}', '{employee.Gender.ToString()}')";
+            string query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender, start_date)
+                                VALUES('{id}', '{employee.Name}', '{employee.Email_Address}', '{employee.Phone_Number}', '{employee.Gender.ToString()}', '{employee.Start_Date.ToString("YYYY-MM-DD HH:mm:ss.sss")}')";
 
             await _sqliteConnection.OpenAsync();
 
@@ -54,7 +54,7 @@ namespace Cafe_NET_API.Data
         public async Task<bool> UpdateEmployee(Employee employee)
         {
             string query = @$"UPDATE Employee
-                                SET name='{employee.Name}', email_address='{employee.Email_Address}', phone_number={employee.Phone_Number}, gender='{employee.Gender}'
+                                SET name='{employee.Name}', email_address='{employee.Email_Address}', phone_number={employee.Phone_Number}, gender='{employee.Gender}', start_date='{employee.Start_Date.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}'
                                 WHERE id='{employee.Id}'";
 
             await _sqliteConnection.OpenAsync();
