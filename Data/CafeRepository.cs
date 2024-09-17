@@ -1,6 +1,8 @@
 ﻿using Cafe_NET_API.Data.Interfaces;
 using Cafe_NET_API.Entities;
+using Cafe_NET_API.Helper;
 using Dapper;
+using System.Collections;
 using System.Data.SQLite;
 
 namespace Cafe_NET_API.Data
@@ -16,32 +18,46 @@ namespace Cafe_NET_API.Data
 
         public async Task<bool> CreateCafe(Cafe cafe)
         {
-            string query = @$"INSERT INTO Cafe(id, name, description, logo, location)
-                                VALUES({Guid.NewGuid()}, {cafe.Name}, {cafe.Description}, {cafe.Logo}, {cafe.Location})";
+            cafe.Id = Guid.NewGuid();
+            CafeEntity cafeE = new CafeEntity(cafe);
+
+            string query = string.IsNullOrEmpty(cafe.Logo) ?
+                                @$"INSERT INTO Cafe(id, name, description, location)
+                                    VALUES(X'{cafeE.Id}', '{cafeE.Name}', '{cafeE.Description}', '{cafeE.Location}')" :
+                                @$"INSERT INTO Cafe(id, name, description, logo, location)
+                                    VALUES(X'{cafeE.Id}', '{cafeE.Name}', '{cafeE.Description}', '{cafeE.Logo}', '{cafeE.Location}')";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1;
         }
 
         public async Task<IEnumerable<Cafe>> GetCafes(string? location = null)
         {
-            string query = "SELECT * FROM Cafe";
+            string query = "SELECT hex(id) AS id, name, description, logo, location FROM Cafe";
 
             if (!string.IsNullOrEmpty(location)) 
             {
-                query = string.Format($"{query} WHERE location = {location}");
+                query = string.Format($"{query} WHERE location = '{location}'");
             }
 
             await _sqliteConnection.OpenAsync();
 
-            var results = await _sqliteConnection.QueryAsync<Cafe>(query);
+            var entityResults = await _sqliteConnection.QueryAsync<CafeEntity>(query);
 
             await _sqliteConnection.CloseAsync();
+
+            List<Cafe> results = new List<Cafe>();
+
+            foreach (var res in entityResults) 
+            { 
+                results.Add(new Cafe(res));
+            }
 
             return results;
         }
@@ -49,14 +65,15 @@ namespace Cafe_NET_API.Data
         public async Task<bool> UpdateCafe(Cafe cafe)
         {
             string query = @$"UPDATE Cafe
-                                SET name={cafe.Name}, description={cafe.Description}, logo={cafe.Logo}, location={cafe.Location} 
-                                WHERE id={cafe.Id}";
+                                SET name='{cafe.Name}', description='{cafe.Description}', logo='{cafe.Logo}', location='{cafe.Location}' 
+                                WHERE id=X'{cafe.Id.ToHexString()}'";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1;
 
@@ -65,13 +82,14 @@ namespace Cafe_NET_API.Data
         public async Task<bool> DeleteCafe(Guid id)
         {
             string query = @$"DELETE FROM Cafe
-                                WHERE id={id}";
+                                WHERE id='X{id.ToHexString()}'";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1;
         }

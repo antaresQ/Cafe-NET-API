@@ -19,13 +19,14 @@ namespace Cafe_NET_API.Data
             string id = $"UI{Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()}";
 
             string query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender)
-                                VALUES({id}, {employee.Name}, {employee.Email_Address}, {employee.Phone_Number}, {employee.Gender})";
+                                VALUES('{id}', '{employee.Name}', '{employee.Email_Address}', '{employee.Phone_Number}', '{employee.Gender.ToString()}')";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1 ? id : string.Empty;
         }
@@ -44,6 +45,7 @@ namespace Cafe_NET_API.Data
             var results = await _sqliteConnection.QueryAsync<EmployeeDetail>(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return results;
 
@@ -52,14 +54,15 @@ namespace Cafe_NET_API.Data
         public async Task<bool> UpdateEmployee(Employee employee)
         {
             string query = @$"UPDATE Employee
-                                SET name={employee.Name}, email_address={employee.Email_Address}, phone_number={employee.Phone_Number}, gender={employee.Gender} 
-                                WHERE id={employee.Id}";
+                                SET name='{employee.Name}', email_address='{employee.Email_Address}', phone_number={employee.Phone_Number}, gender='{employee.Gender}'
+                                WHERE id='{employee.Id}'";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1;
         }
@@ -67,13 +70,14 @@ namespace Cafe_NET_API.Data
         public async Task<bool> DeleteEmployee(string id)
         {
             string query = @$"DELETE FROM Employee
-                                WHERE id={id}";
+                                WHERE id='{id}'";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1;
         }

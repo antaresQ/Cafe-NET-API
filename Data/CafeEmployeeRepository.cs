@@ -17,7 +17,7 @@ namespace Cafe_NET_API.Data
         public async Task<int> CreateCafeEmployee(CafeEmployee cafeEmployee)
         {
             string query = @$"INSERT INTO CafeEmployee(cafe_id, employee_id)
-                                VALUES({cafeEmployee.Cafe_Id}, {cafeEmployee.Employee_Id});
+                                VALUES('{cafeEmployee.Cafe_Id.ToString().ToUpper()}', '{cafeEmployee.Employee_Id}');
                             SELECT last_insert_rowid();";
 
             await _sqliteConnection.OpenAsync();
@@ -37,7 +37,7 @@ namespace Cafe_NET_API.Data
                                 ON ce.cafe_id = c.id
                                 INNER JOIN Employee e
                                 ON ce.employee_id = e.id
-                                WHERE ce.cafe_id = '{cafe_Id}'";
+                                WHERE ce.cafe_id = '{cafe_Id.ToString().ToUpper()}'";
 
             await _sqliteConnection.OpenAsync();
 
@@ -64,6 +64,7 @@ namespace Cafe_NET_API.Data
             var employees = await _sqliteConnection.QueryAsync<EmployeeDetail>(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return employees;
 
@@ -72,13 +73,14 @@ namespace Cafe_NET_API.Data
         public async Task<bool> DeleteCafeEmployee(CafeEmployee cafeEmployee)
         {
             string query = @$"DELETE FROM CafeEmployee
-                                WHERE cafe_id={cafeEmployee.Cafe_Id} AND employee_id={cafeEmployee.Employee_Id}";
+                                WHERE cafe_id='{cafeEmployee.Cafe_Id.ToString().ToUpper()}' AND employee_id='{cafeEmployee.Employee_Id}'";
 
             await _sqliteConnection.OpenAsync();
 
             var outcome = await _sqliteConnection.ExecuteAsync(query);
 
             await _sqliteConnection.CloseAsync();
+            
 
             return outcome == 1;
         }

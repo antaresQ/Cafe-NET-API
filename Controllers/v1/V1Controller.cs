@@ -31,7 +31,7 @@ namespace Cafe_NET_API.Controllers.v1
         }
 
         [HttpPost("cafe"), HttpPut("cafe"), HttpDelete("cafe")]
-        public async Task<IActionResult> Cafe([FromQuery] Cafe cafe)
+        public async Task<IActionResult> Cafe([FromBody] Cafe cafe)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Cafe_NET_API.Controllers.v1
         }
 
         [HttpPost("Employee"), HttpPut("Employee"), HttpDelete("Employee")]
-        public async Task<IActionResult> Employee(EmployeeCreateUpdate employee)
+        public async Task<IActionResult> Employee([FromBody]EmployeeCreateUpdate employee)
         {
             try
             {
