@@ -46,9 +46,19 @@ namespace Cafe_NET_API.Helper
                     );
                 ";
 
+            // For Storing GUID as Blob
+            //string createCafeTableQuery = @"
+            //        CREATE TABLE IF NOT EXISTS Cafe (
+            //            id BLOB PRIMARY KEY NOT NULL,
+            //            name VARCHAR(255),
+            //            description VARCHAR(1024),
+            //            logo VARCHAR(512),
+            //            location VARCHAR(255)
+            //        );";
+
             string createCafeTableQuery = @"
                     CREATE TABLE IF NOT EXISTS Cafe (
-                        id BLOB PRIMARY KEY NOT NULL,
+                        id VARCHAR(36) PRIMARY KEY NOT NULL,
                         name VARCHAR(255),
                         description VARCHAR(1024),
                         logo VARCHAR(512),

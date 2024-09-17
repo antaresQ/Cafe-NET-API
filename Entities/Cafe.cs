@@ -26,7 +26,7 @@ namespace Cafe_NET_API.Entities
 
         public CafeEntity() { }
 
-        public CafeEntity(Cafe cafe)
+        public CafeEntity(Cafe cafe) //this method is for storing guid as blob in SQlite DB
         {
             var uuidByteArray = ((Guid)cafe.Id).ToByteArray();
             string uuidHex = BitConverter.ToString(uuidByteArray).Replace("-", string.Empty);

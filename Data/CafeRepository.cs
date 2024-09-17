@@ -18,14 +18,24 @@ namespace Cafe_NET_API.Data
 
         public async Task<bool> CreateCafe(Cafe cafe)
         {
+            //this method is for guid saved as blob in SQlite DB
+            //cafe.Id = Guid.NewGuid();
+            //CafeEntity cafeE = new CafeEntity(cafe);
+
+            //string query = string.IsNullOrEmpty(cafe.Logo) ?
+            //                    @$"INSERT INTO Cafe(id, name, description, location)
+            //                        VALUES(X'{cafeE.Id}', '{cafeE.Name}', '{cafeE.Description}', '{cafeE.Location}')" :
+            //                    @$"INSERT INTO Cafe(id, name, description, logo, location)
+            //                        VALUES(X'{cafeE.Id}', '{cafeE.Name}', '{cafeE.Description}', '{cafeE.Logo}', '{cafeE.Location}')";
+
+
             cafe.Id = Guid.NewGuid();
-            CafeEntity cafeE = new CafeEntity(cafe);
 
             string query = string.IsNullOrEmpty(cafe.Logo) ?
                                 @$"INSERT INTO Cafe(id, name, description, location)
-                                    VALUES(X'{cafeE.Id}', '{cafeE.Name}', '{cafeE.Description}', '{cafeE.Location}')" :
+                                    VALUES('{cafe.Id.ToSafeString().ToUpper()}', '{cafe.Name}', '{cafe.Description}', '{cafe.Location}')" :
                                 @$"INSERT INTO Cafe(id, name, description, logo, location)
-                                    VALUES(X'{cafeE.Id}', '{cafeE.Name}', '{cafeE.Description}', '{cafeE.Logo}', '{cafeE.Location}')";
+                                    VALUES(X'{cafe.Id}', '{cafe.Name}', '{cafe.Description}', '{cafe.Logo}', '{cafe.Location}')";
 
             await _sqliteConnection.OpenAsync();
 
@@ -39,7 +49,10 @@ namespace Cafe_NET_API.Data
 
         public async Task<IEnumerable<Cafe>> GetCafes(string? location = null)
         {
-            string query = "SELECT hex(id) AS id, name, description, logo, location FROM Cafe";
+            //this method is for guid saved as blob in SQlite DB
+            //string query = "SELECT hex(id) AS id, name, description, logo, location FROM Cafe";
+
+            string query = "SELECT * FROM Cafe";
 
             if (!string.IsNullOrEmpty(location)) 
             {
@@ -64,9 +77,14 @@ namespace Cafe_NET_API.Data
 
         public async Task<bool> UpdateCafe(Cafe cafe)
         {
+            //this method is for guid saved as blob in SQlite DB
+            //string query = @$"UPDATE Cafe
+            //                    SET name='{cafe.Name}', description='{cafe.Description}', logo='{cafe.Logo}', location='{cafe.Location}' 
+            //                    WHERE id=X'{cafe.Id.ToHexString()}'";
+
             string query = @$"UPDATE Cafe
                                 SET name='{cafe.Name}', description='{cafe.Description}', logo='{cafe.Logo}', location='{cafe.Location}' 
-                                WHERE id=X'{cafe.Id.ToHexString()}'";
+                                WHERE id='{cafe.Id.ToSafeString().ToUpper()}'";
 
             await _sqliteConnection.OpenAsync();
 
@@ -81,8 +99,12 @@ namespace Cafe_NET_API.Data
 
         public async Task<bool> DeleteCafe(Guid id)
         {
+            //this method is for guid saved as blob in SQlite DB
+            //string query = @$"DELETE FROM Cafe
+            //                    WHERE id='X{id.ToHexString()}'";
+
             string query = @$"DELETE FROM Cafe
-                                WHERE id='X{id.ToHexString()}'";
+                                WHERE id='{id.ToSafeString()}'";
 
             await _sqliteConnection.OpenAsync();
 

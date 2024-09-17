@@ -1,5 +1,6 @@
 ﻿using Cafe_NET_API.Data.Interfaces;
 using Cafe_NET_API.Entities;
+using Cafe_NET_API.Helper;
 using Dapper;
 using System.Data.SQLite;
 
@@ -31,6 +32,15 @@ namespace Cafe_NET_API.Data
 
         public async Task<IEnumerable<EmployeeDetail>> GetCafeEmployees(Guid cafe_Id)
         {
+            //this method is for guid saved as blob in SQlite DB
+            //string query = @$"SELECT e.id, e.name, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name
+            //                    FROM CafeEmployee ce
+            //                    INNER JOIN Cafe c
+            //                    ON ce.cafe_id = c.id
+            //                    INNER JOIN Employee e
+            //                    ON ce.employee_id = e.id
+            //                    WHERE ce.cafe_id = 'X{cafe_Id.ToHexString()}'";
+
             string query = @$"SELECT e.id, e.name, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name
                                 FROM CafeEmployee ce
                                 INNER JOIN Cafe c
