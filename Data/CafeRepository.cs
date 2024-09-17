@@ -35,7 +35,7 @@ namespace Cafe_NET_API.Data
                                 @$"INSERT INTO Cafe(id, name, description, location)
                                     VALUES('{cafe.Id.ToSafeString().ToUpper()}', '{cafe.Name}', '{cafe.Description}', '{cafe.Location}')" :
                                 @$"INSERT INTO Cafe(id, name, description, logo, location)
-                                    VALUES(X'{cafe.Id}', '{cafe.Name}', '{cafe.Description}', '{cafe.Logo}', '{cafe.Location}')";
+                                    VALUES(X'{cafe.Id.ToSafeString().ToUpper()}', '{cafe.Name}', '{cafe.Description}', '{cafe.Logo}', '{cafe.Location}')";
 
             await _sqliteConnection.OpenAsync();
 
@@ -104,7 +104,7 @@ namespace Cafe_NET_API.Data
             //                    WHERE id='X{id.ToHexString()}'";
 
             string query = @$"DELETE FROM Cafe
-                                WHERE id='{id.ToSafeString()}'";
+                                WHERE id='{id.ToSafeString().ToUpper()}'";
 
             await _sqliteConnection.OpenAsync();
 

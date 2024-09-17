@@ -41,7 +41,7 @@ namespace Cafe_NET_API.Data
             //                    ON ce.employee_id = e.id
             //                    WHERE ce.cafe_id = 'X{cafe_Id.ToHexString()}'";
 
-            string query = @$"SELECT e.id, e.name, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name
+            string query = @$"SELECT e.id, e.name, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name AS cafe
                                 FROM CafeEmployee ce
                                 INNER JOIN Cafe c
                                 ON ce.cafe_id = c.id

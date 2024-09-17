@@ -7,7 +7,7 @@ namespace Cafe_NET_API.Entities
     public class EmployeeBase
     {
         //UIXXXXXXXX
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [Required]
         public string Name { get; set; }
