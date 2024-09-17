@@ -115,30 +115,41 @@ namespace Cafe_NET_API.Services
             }
         }
 
-        public async Task<IEnumerable<EmployeeDetail>> GetEmployees(string? cafeNameOrId = null)
+        public async Task<IEnumerable<EmployeeDetailView>> GetEmployees(string? cafeNameOrId = null)
         {
             try
             {
+                IEnumerable<EmployeeDetail> employeesDetails = new List<EmployeeDetail>();
+
                 if (string.IsNullOrEmpty(cafeNameOrId))
                 {
-                    return await _employeeRepository.GetEmployees();
+                    employeesDetails = await _employeeRepository.GetEmployees();
                 }
                 else
                 {
                     if (Guid.TryParse(cafeNameOrId, out var cafe_id))
                     {
-                        return await _cafeEmployeeRepository.GetCafeEmployees(cafe_id);
+                        employeesDetails = await _cafeEmployeeRepository.GetCafeEmployees(cafe_id);
                     }
                     else
                     {
-                        return await _cafeEmployeeRepository.GetCafeEmployees(cafeNameOrId);
+                        employeesDetails = await _cafeEmployeeRepository.GetCafeEmployees(cafeNameOrId);
                     }
                 }
+
+                IList<EmployeeDetailView> employeesDetailViews = new List<EmployeeDetailView>();
+
+                foreach (var employee in employeesDetails) 
+                {
+                    employeesDetailViews.Add(new EmployeeDetailView(employee));
+                }
+
+                return employeesDetailViews;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new List<EmployeeDetail>();
+                return new List<EmployeeDetailView>();
             }
         }
 

@@ -19,6 +19,10 @@ namespace Cafe_NET_API.Entities
         [Required]
         [Range(80000000, 99999999)]
         public int Phone_Number { get; set; }
+        public EmployeeBase()
+        {
+            
+        }
 
     }
 
@@ -28,22 +32,52 @@ namespace Cafe_NET_API.Entities
 
         [Required]
         public Gender Gender { get; set; }
+        public Employee()
+        {
+            
+        }
     }
 
     public class EmployeeCreateUpdate : Employee
     {
         public Guid Cafe_Id { get; set; }
+        public EmployeeCreateUpdate()
+        {
+            
+        }
     }
 
     public class EmployeeDetail : Employee
     {
         public DateTime Start_Date { get; set; }
         public string Cafe { get; set; }
+
+        public EmployeeDetail()
+        {
+            
+        }
     }
 
     public class EmployeeDetailView : Employee
     {
         public int Days_Worked { get; set; }
         public string Cafe { get; set; }
+        public EmployeeDetailView()
+        {
+            
+        }
+
+        public EmployeeDetailView(EmployeeDetail empD)
+        {
+            Id = empD.Id;
+            Name = empD.Name;
+            Email_Address = empD.Email_Address;
+            Phone_Number = empD.Phone_Number;
+            Cafe = empD.Cafe;
+
+            var workedDays = DateTime.Now - empD.Start_Date;
+
+            Days_Worked = workedDays.Days;
+        }
     }
 }
