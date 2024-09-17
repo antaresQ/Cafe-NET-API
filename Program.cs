@@ -1,4 +1,8 @@
+using Cafe_NET_API.Data;
+using Cafe_NET_API.Data.Interfaces;
 using Cafe_NET_API.Helper;
+using Cafe_NET_API.Services;
+using Cafe_NET_API.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.SQLite;
 using System.Text.Json.Serialization;
@@ -22,9 +26,22 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.Configure<SQLiteConfig>(builder.Configuration.GetSection("SQLiteConfig"));
 
+var sqliteConfig = builder.Configuration.GetSection("SQLiteConfig");
+builder.Services.Configure<SQLiteConfig>(sqliteConfig);
+
+
+var sqliteConfigVal = sqliteConfig.Get<SQLiteConfig>();
+builder.Services.AddSingleton(new SQLiteConnection($"Data Source={sqliteConfigVal.DBPath};Version={sqliteConfigVal.Version}"));
 builder.Services.AddSingleton<DbContext>();
+
+
+builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddTransient<ICafeRepository, CafeRepository>();
+builder.Services.AddTransient<ICafeEmployeeRepository, CafeEmployeeRepository>();
+
+
+builder.Services.AddSingleton<ICafeEmployeeService, CafeEmployeeService>();
 
 
 
