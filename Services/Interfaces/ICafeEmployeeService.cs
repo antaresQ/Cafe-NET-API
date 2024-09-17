@@ -13,9 +13,9 @@ namespace Cafe_NET_API.Services.Interfaces
 
 
         #region Employee Services
-        Task<string> CreateEmployee(Employee employee);
+        Task<string> CreateEmployee(EmployeeCreateUpdate employee);
         Task<IEnumerable<EmployeeDetail>> GetEmployees(string? cafeNameOrId = null);
-        Task<bool> UpdateEmployee(Employee employee);
+        Task<bool> UpdateEmployee(EmployeeCreateUpdate employee);
         Task<bool> DeleteEmployee(string id);
 
         #endregion

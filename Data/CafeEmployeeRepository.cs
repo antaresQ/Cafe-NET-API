@@ -80,10 +80,10 @@ namespace Cafe_NET_API.Data
 
         }
 
-        public async Task<bool> DeleteCafeEmployee(CafeEmployee cafeEmployee)
+        public async Task<bool> DeleteCafeEmployee(string employee_id)
         {
             string query = @$"DELETE FROM CafeEmployee
-                                WHERE cafe_id='{cafeEmployee.Cafe_Id.ToString().ToUpper()}' AND employee_id='{cafeEmployee.Employee_Id}'";
+                                WHERE employee_id='{employee_id}'"; //AND cafe_id='{cafeEmployee.Cafe_Id.ToString().ToUpper()}'";
 
             await _sqliteConnection.OpenAsync();
 
@@ -91,6 +91,20 @@ namespace Cafe_NET_API.Data
 
             await _sqliteConnection.CloseAsync();
             
+
+            return outcome == 1;
+        }
+
+        public async Task<bool> DeleteCafe(Guid cafe_id)
+        {
+            string query = @$"DELETE FROM CafeEmployee
+                                WHERE cafe_id='{cafe_id.ToString().ToUpper()}'";
+
+            await _sqliteConnection.OpenAsync();
+
+            var outcome = await _sqliteConnection.ExecuteAsync(query);
+
+            await _sqliteConnection.CloseAsync();
 
             return outcome == 1;
         }

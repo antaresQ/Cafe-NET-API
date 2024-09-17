@@ -62,7 +62,19 @@ namespace Cafe_NET_API.Services
         {
             try
             {
-                return await _cafeRepository.DeleteCafe(id);
+                var cafeEmployees = await _cafeEmployeeRepository.GetCafeEmployees(id);
+
+                foreach (var cafeEmp in cafeEmployees)
+                {
+                    if (await _employeeRepository.DeleteEmployee(cafeEmp.Id) == false)
+                    {
+                        throw new Exception($"Failed to Delete Employee: {cafeEmp.Id} in Cafe_id:{id}, cafe name: {cafeEmp.Cafe}");
+                    }
+                }
+
+                var isCafeDeleted =  await _cafeRepository.DeleteCafe(id);
+
+                return isCafeDeleted;
             }
             catch (Exception ex)
             {
@@ -77,11 +89,24 @@ namespace Cafe_NET_API.Services
 
         #region Employee Services
 
-        public async Task<string> CreateEmployee(Employee employee)
+        public async Task<string> CreateEmployee(EmployeeCreateUpdate employee)
         {
             try
             {
-                return await _employeeRepository.CreateEmployee(employee);
+                var employee_id = await _employeeRepository.CreateEmployee(employee);
+
+                var cEId = await _cafeEmployeeRepository.CreateCafeEmployee(new CafeEmployee()
+                {
+                    Cafe_Id = employee.Cafe_Id,
+                    Employee_Id = employee_id
+                });
+
+                if (!(cEId > 0))
+                {
+                    throw new Exception("Failed to Assign Employee to Cafe");
+                }
+
+                return employee_id;
             }
             catch (Exception ex)
             {
@@ -117,11 +142,19 @@ namespace Cafe_NET_API.Services
             }
         }
 
-        public async Task<bool> UpdateEmployee(Employee employee)
+        public async Task<bool> UpdateEmployee(EmployeeCreateUpdate employee)
         {
             try
             {
-                return await _employeeRepository.UpdateEmployee(employee);
+                var isEmployeeUpdated = await _employeeRepository.UpdateEmployee(employee);
+                var isCafeEmployeeDeleted = await _cafeEmployeeRepository.DeleteCafeEmployee(employee.Id);
+
+                var newCafeEmployee = new CafeEmployee() { Cafe_Id = employee.Cafe_Id, Employee_Id = employee.Id };
+                newCafeEmployee.Id = await _cafeEmployeeRepository.CreateCafeEmployee(newCafeEmployee);
+
+                var iCafeEmployeeUpdated = newCafeEmployee.Id > 0;
+
+                return (isEmployeeUpdated && isCafeEmployeeDeleted && iCafeEmployeeUpdated);
             }
             catch (Exception ex)
             {

@@ -10,6 +10,8 @@ namespace Cafe_NET_API.Data.Interfaces
 
         Task<IEnumerable<EmployeeDetail>> GetCafeEmployees(string cafeName);
 
-        Task<bool> DeleteCafeEmployee(CafeEmployee cafeEmployee);
+        Task<bool> DeleteCafeEmployee(string employee_Id);
+
+        Task<bool> DeleteCafe(Guid cafe_id);
     }
 }
