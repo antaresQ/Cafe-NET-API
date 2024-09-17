@@ -16,6 +16,49 @@ namespace Cafe_NET_API.Controllers.v1
             _cafeEmployeeService = cafeEmployeeService;
         }
 
+        [HttpGet("cafes")]
+        public async Task<IActionResult> Cafes([FromQuery]string? location)
+        {
+            try
+            {
+                return Ok(await _cafeEmployeeService.GetCafes(location));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("cafe"), HttpPut("cafe"), HttpDelete("cafe")]
+        public async Task<IActionResult> Cafe([FromQuery] Cafe cafe)
+        {
+            try
+            {
+                if (HttpContext.Request.Method == "POST" && cafe.Id == null)
+                {
+                    return Ok(await _cafeEmployeeService.CreateCafe(cafe));
+                }
+                else if (HttpContext.Request.Method == "PUT" && cafe.Id != null)
+                {
+                    return Ok(await _cafeEmployeeService.UpdateCafe(cafe));
+                }
+                else if (HttpContext.Request.Method == "DELETE" && cafe.Id != null)
+                {
+                    return Ok(await _cafeEmployeeService.DeleteCafe((Guid)cafe.Id));
+                }
+                else
+                {
+                    throw new Exception("Please check Method & Employee Id");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("Employees")]
         public async Task<IActionResult> Employees([FromQuery]string? cafe)
         {
