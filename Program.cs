@@ -32,7 +32,6 @@ builder.Services.Configure<SQLiteConfig>(sqliteConfig);
 
 
 var sqliteConfigVal = sqliteConfig.Get<SQLiteConfig>();
-builder.Services.AddSingleton(new SQLiteConnection($"Data Source={sqliteConfigVal.DBPath};Version={sqliteConfigVal.Version}"));
 builder.Services.AddSingleton<DbContext>();
 
 
