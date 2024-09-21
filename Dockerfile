@@ -3,12 +3,16 @@
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+#start For .NET dev certs Not For Production
+#RUN dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\cafenetapi.pfx -p crypticpassword
+#RUN dotnet dev-certs https --trust
+#end
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Cafe-NET-API.csproj", "."]
@@ -24,6 +28,11 @@ RUN dotnet publish "./Cafe-NET-API.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
-WORKDIR /app
+#start For .NET dev certs Not For Production
+#WORKDIR /appCOPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
+#end
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Cafe-NET-API.dll"]
+
+#sample "docker run" for dev: docker run --rm -it -p 8060:8080 cafenetapi
+#Sample "docker run" for https: docker run --rm -it -p 8061:8080 -p 8060:443 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORTS=8060 -e ASPNETCORE_Kestrel__Certificates__Default__Password="crypticpassword" -e ASPNETCORE_Kestrel__Certificates__Default__Path=c:\https\cafenetapi.pfx -v %USERPROFILE%\.aspnet\https:C:\https\ --user ContainerAdministrator cafenetapi

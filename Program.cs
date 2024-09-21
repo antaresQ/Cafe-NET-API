@@ -3,9 +3,8 @@ using Cafe_NET_API.Data.Interfaces;
 using Cafe_NET_API.Helper;
 using Cafe_NET_API.Services;
 using Cafe_NET_API.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System.Data.SQLite;
 using System.Text.Json.Serialization;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +19,19 @@ builder.Services.AddControllers().AddJsonOptions(x =>
     // ignore omitted parameters on models to enable optional params (e.g. User update)
     x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 }); ;
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHttpsRedirection(options =>
+    {
+
+        options.RedirectStatusCode = builder.Environment.IsDevelopment() ?
+                                        Status307TemporaryRedirect : Status308PermanentRedirect;
+
+        options.HttpsPort = builder.Configuration.GetValue<int>("https_port");
+
+    });
+}
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -60,7 +72,10 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 
-//app.UseHttpsRedirection();
+//if (!builder.Environment.IsDevelopment())
+//{
+//    app.UseHttpsRedirection();
+//}
 
 app.UseAuthorization();
 

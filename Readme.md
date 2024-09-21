@@ -12,6 +12,7 @@
 		2.3 Install DB Browser for accessing SQLite
 		2.4 Install Docker Desktop for hosting site and containerized debugging
 		2.5 Swagger API page will launch to display API reference
+		2.6 API Ref Doc: http://localhost:8060/swagger/index.html
 		
 
 	antaresQ
