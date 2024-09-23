@@ -58,6 +58,29 @@ namespace Cafe_NET_API.Data
             }
         }
 
+        public async Task<EmployeeDetail> GetEmployee(string employeeId)
+        {
+            using (SQLiteConnection _sqliteConnection = EstablishSQLiteConnection())
+            {
+                string query = $@"SELECT e.id, e.name, e.gender, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name as Cafe
+                                FROM CafeEmployee ce
+                                INNER JOIN Cafe c
+                                    ON ce.cafe_id = c.id
+                                INNER JOIN Employee e
+                                    ON ce.employee_id = e.id
+                                WHERE e.id = '{employeeId}'";
+
+                _sqliteConnection.Open();
+
+                var result = _sqliteConnection.QueryFirstOrDefault<EmployeeDetail>(query);
+
+                _sqliteConnection.Close();
+
+
+                return result;
+            }
+        }
+
         public async Task<bool> UpdateEmployee(Employee employee)
         {
             using (SQLiteConnection _sqliteConnection = EstablishSQLiteConnection())

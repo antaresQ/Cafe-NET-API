@@ -60,10 +60,14 @@ namespace Cafe_NET_API.Controllers.v1
         }
 
         [HttpGet("Employees")]
-        public async Task<IActionResult> Employees([FromQuery]string? cafe)
+        public async Task<IActionResult> Employees([FromQuery]string? cafe,[FromQuery] string? employeeId)
         {
             try
             {
+                if(!string.IsNullOrEmpty(employeeId))
+                {
+                    return Ok(await _cafeEmployeeService.GetEmployee(employeeId));
+                }
                 return Ok(await _cafeEmployeeService.GetEmployees(cafe));
             }
             catch (Exception ex)

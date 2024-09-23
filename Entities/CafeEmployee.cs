@@ -10,4 +10,5 @@ namespace Cafe_NET_API.Entities
         //UIXXXXXXXX
         public string Employee_Id { get; set; }
     }
+
 }

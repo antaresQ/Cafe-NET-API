@@ -153,6 +153,21 @@ namespace Cafe_NET_API.Services
             }
         }
 
+        public async Task<EmployeeDetailView> GetEmployee(string? employeeId = null)
+        {
+            try
+            {
+                var employee = await _employeeRepository.GetEmployee(employeeId);
+
+                return new EmployeeDetailView(employee);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new EmployeeDetailView();
+            }
+        }
+
         public async Task<bool> UpdateEmployee(EmployeeCreateUpdate employee)
         {
             try

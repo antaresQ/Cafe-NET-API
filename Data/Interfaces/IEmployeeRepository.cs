@@ -8,6 +8,8 @@ namespace Cafe_NET_API.Data.Interfaces
 
         Task<IEnumerable<EmployeeDetail>> GetEmployees();
 
+        Task<EmployeeDetail> GetEmployee(string employeeId);
+
         Task<bool> UpdateEmployee(Employee employee);
 
         Task<bool> DeleteEmployee(string id);
