@@ -73,6 +73,7 @@ namespace Cafe_NET_API.Entities
             Name = empD.Name;
             Email_Address = empD.Email_Address;
             Phone_Number = empD.Phone_Number;
+            Gender = empD.Gender;
             Cafe = empD.Cafe;
 
             var workedDays = DateTime.Now - empD.Start_Date;
