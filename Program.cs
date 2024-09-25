@@ -10,7 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddCors();
+
+//var AllowSpecificOrigins = "_allowSpecificOrigins";
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: AllowSpecificOrigins,
+//        policy =>
+//        {
+//            policy.WithOrigins("http://localhost:3001", "http://localhost:3000");
+//        });
+//});
+
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
     // serialize enums as strings in api responses (e.g. Role)

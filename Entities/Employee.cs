@@ -49,7 +49,6 @@ namespace Cafe_NET_API.Entities
 
     public class EmployeeDetail : Employee
     {
-        public DateTime Start_Date { get; set; }
         public string Cafe { get; set; }
 
         public EmployeeDetail()
@@ -58,10 +57,9 @@ namespace Cafe_NET_API.Entities
         }
     }
 
-    public class EmployeeDetailView : Employee
+    public class EmployeeDetailView : EmployeeDetail
     {
         public int Days_Worked { get; set; }
-        public string Cafe { get; set; }
         public EmployeeDetailView()
         {
             
@@ -75,6 +73,7 @@ namespace Cafe_NET_API.Entities
             Phone_Number = empD.Phone_Number;
             Gender = empD.Gender;
             Cafe = empD.Cafe;
+            Start_Date = empD.Start_Date;
 
             var workedDays = DateTime.Now - empD.Start_Date;
 
