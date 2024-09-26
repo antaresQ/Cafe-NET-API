@@ -45,6 +45,19 @@ namespace Cafe_NET_API.Services
             }
         }
 
+        public async Task<Cafe> GetCafe(Guid cafe_id)
+        {
+            try
+            {
+                return await _cafeRepository.GetCafe(cafe_id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new Cafe();
+            }
+        }
+
         public async Task<bool> UpdateCafe(Cafe cafe)
         {
             try

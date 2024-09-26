@@ -8,6 +8,8 @@ namespace Cafe_NET_API.Data.Interfaces
 
         Task<IEnumerable<Cafe>> GetCafes(string? location = null);
 
+        Task<Cafe> GetCafe(Guid id);
+
         Task<bool> UpdateCafe(Cafe cafe);
 
         Task<bool> DeleteCafe(Guid id);

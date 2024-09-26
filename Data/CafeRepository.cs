@@ -82,6 +82,25 @@ namespace Cafe_NET_API.Data
             }
         }
 
+        public async Task<Cafe> GetCafe(Guid id)
+        {
+            using (SQLiteConnection _sqliteConnection = EstablishSQLiteConnection())
+            {
+                //this method is for guid saved as blob in SQlite DB
+                //string query = "SELECT hex(id) AS id, name, description, logo, location FROM Cafe";
+
+                string query = @$"SELECT * FROM Cafe WHERE id = '{id.ToString().ToUpper()}'";
+
+                _sqliteConnection.Open();
+
+                var results = _sqliteConnection.QueryFirst<CafeEntity>(query);
+
+                _sqliteConnection.Close();
+
+                return new Cafe(results);
+            }
+        }
+
         public async Task<bool> UpdateCafe(Cafe cafe)
         {
             using (SQLiteConnection _sqliteConnection = EstablishSQLiteConnection())

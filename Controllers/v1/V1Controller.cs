@@ -30,12 +30,26 @@ namespace Cafe_NET_API.Controllers.v1
             }
         }
 
-        [HttpPost("cafe"), HttpPut("cafe"), HttpDelete("cafe")]
-        public async Task<IActionResult> Cafe([FromBody] Cafe cafe)
+        [HttpGet("cafe")]
+        public async Task<IActionResult> GetCafe([FromQuery]Guid cafe_Id)
         {
             try
             {
-                if (HttpContext.Request.Method == "POST" && cafe.Id == null)
+                return Ok(await _cafeEmployeeService.GetCafe(cafe_Id));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("cafe"), HttpPut("cafe"), HttpDelete("cafe")]
+        public async Task<IActionResult> Cafe([FromBody]Cafe cafe)
+        {
+            try
+            {
+                if (HttpContext.Request.Method == "POST" && cafe?.Id == null)
                 {
                     return Ok(await _cafeEmployeeService.CreateCafe(cafe));
                 }

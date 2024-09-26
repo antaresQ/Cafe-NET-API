@@ -7,6 +7,7 @@ namespace Cafe_NET_API.Services.Interfaces
         #region Cafe Services
         Task<bool> CreateCafe(Cafe cafe);
         Task<IEnumerable<Cafe>> GetCafes(string? location = null);
+        Task<Cafe> GetCafe(Guid cafe_id);
         Task<bool> UpdateCafe(Cafe cafe);
         Task<bool> DeleteCafe(Guid id);
         #endregion
