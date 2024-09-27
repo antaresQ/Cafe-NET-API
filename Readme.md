@@ -5,6 +5,7 @@
 		1.1 This .NET 8 API project for a Cafe-Employee Management
 		1.2 SQLite & .NET 8
 		1.3 SQlite DB, Tables and Seed Data is Generated on Run
+  		1.4 Works together with https://github.com/antaresQ/cafe-react-fe
 
 	2. Setup
 		2.1 Use VSCode or Visual Studio
