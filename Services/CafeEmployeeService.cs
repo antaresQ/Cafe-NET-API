@@ -172,7 +172,7 @@ namespace Cafe_NET_API.Services
             {
                 var employee = await _employeeRepository.GetEmployee(employeeId);
 
-                return new EmployeeDetailView(employee);
+                return employee != null ?  new EmployeeDetailView(employee) : new EmployeeDetailView();
             }
             catch (Exception ex)
             {

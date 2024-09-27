@@ -62,7 +62,14 @@ namespace Cafe_NET_API.Entities
         public int Days_Worked { get; set; }
         public EmployeeDetailView()
         {
-            
+            Id = string.Empty;
+            Name = string.Empty;
+            Email_Address = string.Empty;
+            Phone_Number = 0;
+            Gender = Gender.Male;
+            Cafe = string.Empty;
+            Start_Date = new DateTime();
+            Days_Worked = 0;
         }
 
         public EmployeeDetailView(EmployeeDetail empD)
