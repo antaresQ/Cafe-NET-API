@@ -44,7 +44,7 @@ namespace Cafe_NET_API.Controllers.v1
             }
         }
 
-        [HttpPost("cafe"), HttpPut("cafe"), HttpDelete("cafe")]
+        [HttpPost("cafe"), HttpPut("cafe")]
         public async Task<IActionResult> Cafe([FromBody]Cafe cafe)
         {
             try
@@ -57,9 +57,26 @@ namespace Cafe_NET_API.Controllers.v1
                 {
                     return Ok(await _cafeEmployeeService.UpdateCafe(cafe));
                 }
-                else if (HttpContext.Request.Method == "DELETE" && cafe.Id != null)
+                else
                 {
-                    return Ok(await _cafeEmployeeService.DeleteCafe((Guid)cafe.Id));
+                    throw new Exception("Please check Method & Cafe Id");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpDelete("cafe")]
+        public async Task<IActionResult> DeleteCafe([FromQuery]Guid? cafeId)
+        {
+            try
+            {
+                if (HttpContext.Request.Method == "DELETE" && cafeId != null)
+                {
+                    return Ok(await _cafeEmployeeService.DeleteCafe((Guid)cafeId));
                 }
                 else
                 {
@@ -92,7 +109,7 @@ namespace Cafe_NET_API.Controllers.v1
 
         }
 
-        [HttpPost("Employee"), HttpPut("Employee"), HttpDelete("Employee")]
+        [HttpPost("Employee"), HttpPut("Employee")]
         public async Task<IActionResult> Employee([FromBody]EmployeeCreateUpdate employee)
         {
             try
@@ -105,9 +122,27 @@ namespace Cafe_NET_API.Controllers.v1
                 {
                     return Ok(await _cafeEmployeeService.UpdateEmployee(employee));
                 }
-                else if (HttpContext.Request.Method == "DELETE" && !string.IsNullOrEmpty(employee.Id))
+                else
                 {
-                    return Ok(await _cafeEmployeeService.DeleteEmployee(employee.Id));
+                    throw new Exception("Please check Method & Employee Id");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex);
+            }
+
+        }
+
+        [HttpDelete("Employee")]
+        public async Task<IActionResult> DeleteEmployee([FromQuery]string employeeId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(employeeId))
+                {
+                    return Ok(await _cafeEmployeeService.DeleteEmployee(employeeId));
                 }
                 else
                 {
