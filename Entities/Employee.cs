@@ -40,7 +40,6 @@ namespace Cafe_NET_API.Entities
 
     public class EmployeeCreateUpdate : Employee
     {
-        public string Cafe_Id_String { get; set; }
         public Guid Cafe_Id { get; set; }
         public EmployeeCreateUpdate()
         {
@@ -48,8 +47,9 @@ namespace Cafe_NET_API.Entities
         }
     }
 
-    public class EmployeeDetail : EmployeeCreateUpdate
+    public class EmployeeDetail : Employee
     {
+        public string? Cafe_Id_String { get; set; }
         public string Cafe { get; set; }
 
         public EmployeeDetail()
@@ -60,6 +60,7 @@ namespace Cafe_NET_API.Entities
 
     public class EmployeeDetailView : EmployeeDetail
     {
+        public Guid Cafe_Id { get; set; }
         public int Days_Worked { get; set; }
         public EmployeeDetailView()
         {
