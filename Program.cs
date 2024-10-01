@@ -11,16 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
-//var AllowSpecificOrigins = "_allowSpecificOrigins";
+var AllowSpecificOrigins = "_allowSpecificOrigins";
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: AllowSpecificOrigins,
-//        policy =>
-//        {
-//            policy.WithOrigins("http://localhost:3001", "http://localhost:3000");
-//        });
-//});
+var origins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins(origins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+        });
+});
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
@@ -75,6 +79,8 @@ var app = builder.Build();
     var context = scope.ServiceProvider.GetRequiredService<DbContext>();
     await context.InitializeAsync();
 }
+
+app.UseCors(AllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
