@@ -62,7 +62,7 @@ namespace Cafe_NET_API.Data
         {
             using (SQLiteConnection _sqliteConnection = EstablishSQLiteConnection())
             {
-                string query = $@"SELECT e.id, e.name, e.gender, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name as Cafe
+                string query = $@"SELECT e.id, e.name, e.gender, e.email_Address, e.phone_number, e.email_Address, e.start_date, c.name as cafe, c.id as cafe_Id_String
                                 FROM CafeEmployee ce
                                 INNER JOIN Cafe c
                                     ON ce.cafe_id = c.id

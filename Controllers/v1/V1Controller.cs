@@ -109,6 +109,25 @@ namespace Cafe_NET_API.Controllers.v1
 
         }
 
+        [HttpGet("Employee")]
+        public async Task<IActionResult> Employee([FromQuery] string? employeeId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(employeeId))
+                {
+                    return Ok(await _cafeEmployeeService.GetEmployee(employeeId));
+                }
+                return BadRequest("Missing/Invalid EmployeeId");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex);
+            }
+
+        }
+
         [HttpPost("Employee"), HttpPut("Employee")]
         public async Task<IActionResult> Employee([FromBody]EmployeeCreateUpdate employee)
         {
