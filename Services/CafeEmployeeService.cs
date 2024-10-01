@@ -49,7 +49,9 @@ namespace Cafe_NET_API.Services
         {
             try
             {
-                return await _cafeRepository.GetCafe(cafe_id);
+                var cafe = await _cafeRepository.GetCafe(cafe_id);
+
+                return cafe != null ? cafe : new Cafe();
             }
             catch (Exception ex)
             {

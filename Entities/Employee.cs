@@ -70,7 +70,7 @@ namespace Cafe_NET_API.Entities
             Phone_Number = 0;
             Gender = Gender.Male;
             Cafe = string.Empty;
-            Start_Date = new DateTime();
+            Start_Date = DateTime.Now;
             Days_Worked = 0;
             Cafe_Id = Guid.Empty;
         }
