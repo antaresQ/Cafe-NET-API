@@ -13,7 +13,7 @@
 		2.3 Install DB Browser for accessing SQLite
 		2.4 Install Docker Desktop for hosting site and containerized debugging
   		2.5 docker build
-    		2.6 docker run -d --rm -it -p 8060:8080 --name CafeNetAPI cafenetapi
+    		2.6 To deploy: docker run -d --rm -it -p 8060:8080 --name CafeNetAPI cafenetapi
 	
  	3. Use 
   		3.1 Swagger API page will launch to display API reference
