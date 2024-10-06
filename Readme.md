@@ -13,9 +13,9 @@
 		2.3 Install DB Browser for accessing SQLite
 		2.4 Install Docker Desktop for hosting site and containerized debugging
   		2.5 git pull https://github.com/antaresQ/cafenetapi
-    		2.6 in appsetting.json -> "AllowedOrigins" list, add the url and port of the deployed cafe-react-fe project 
-   		2.7 to build: docker build -f ./Dockerfile -t cafenetapi .
-    		2.8 To deploy: docker run -d --rm -it -p 8060:8080 --name CafeNetAPI cafenetapi
+		2.6 in appsetting.json -> "AllowedOrigins" list, add the url and port of the deployed cafe-react-fe project 
+   		2.7 To build: docker build -f ./Dockerfile -t cafenetapi .
+     		2.8 To deploy: docker run -d --rm -it -p 8060:8080 --name CafeNetAPI cafenetapi
 	
  	3. Use 
   		3.1 Swagger API page will launch to display API reference
