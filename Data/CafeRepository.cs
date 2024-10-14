@@ -38,7 +38,7 @@ namespace Cafe_NET_API.Data
                                     @$"INSERT INTO Cafe(id, name, description, location)
                                     VALUES('{cafe.Id.ToSafeString().ToUpper()}', '{cafe.Name}', '{cafe.Description}', '{cafe.Location}')" :
                                     @$"INSERT INTO Cafe(id, name, description, logo, location)
-                                    VALUES(X'{cafe.Id.ToSafeString().ToUpper()}', '{cafe.Name}', '{cafe.Description}', '{cafe.Logo}', '{cafe.Location}')";
+                                    VALUES('{cafe.Id.ToSafeString().ToUpper()}', '{cafe.Name}', '{cafe.Description}', '{cafe.Logo}', '{cafe.Location}')";
 
                 _sqliteConnection.Open();
 
