@@ -74,9 +74,16 @@ namespace Cafe_NET_API.Helper
                         employee_id BLOB NOT NULL UNIQUE
                     );";
 
+                var createEmployeeUniqueEmailIndex = @"
+                    CREATE UNIQUE INDEX Employee_email_Address
+                    ON Employee(email_Address);";
+
                 using (var command = new SQLiteCommand(_sqliteConn))
                 {
                     command.CommandText = createEmployeeTableQuery;
+                    await command.ExecuteNonQueryAsync();
+
+                    command.CommandText = createEmployeeUniqueEmailIndex;
                     await command.ExecuteNonQueryAsync();
 
                     command.CommandText = createCafeTableQuery;
@@ -113,7 +120,7 @@ namespace Cafe_NET_API.Helper
                                         VALUES ('UICFD7927E','Hor Fun Man','man@horfun.com',91234567,'Male','2023-09-17T00:53:26.078Z'),
                                                  ('UI476E6EFA','Tabby Tan','tabby@tan.com',98765432,'Female','2023-05-01T03:13:43.146Z'),
                                                  ('UI948C603A','Chip','chip@rescuerangers.com',98785132,'Male','1991-01-01T00:00:00.000Z'),
-                                                 ('UI8BB99BB4','Dale','chip@rescuerangers.com',98785133,'Male','1991-01-01T00:00:00.000Z'),
+                                                 ('UI8BB99BB4','Dale','dale@rescuerangers.com',98785133,'Male','1991-01-01T00:00:00.000Z'),
                                                  ('UI814BE4C2','Khao Manee','khao_manee@akukatsini.com',81234567,'Male','2020-03-01T03:20:18.061Z'),
                                                  ('UI9EF3AFE6','You Get Ou','you_get_ou@ofthisplace.com',80020078,'Female','2021-12-01T03:20:18.061Z'),
                                                  ('UIFD93111A','Com Onin','com_onin@andsitdown.com',90220076,'Female','2010-05-22T03:20:18.061Z')";
