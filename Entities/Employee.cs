@@ -19,6 +19,14 @@ namespace Cafe_NET_API.Entities
         [Required]
         [Range(80000000, 99999999)]
         public int Phone_Number { get; set; }
+
+        [Required]
+        public bool Is_Login { get; set; } = false;
+
+        [Required]
+        [StringLength(64)]
+        public string Password { get; set; } = string.Empty;
+
         public EmployeeBase()
         {
             

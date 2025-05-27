@@ -1,4 +1,6 @@
 ﻿using Cafe_NET_API.Entities;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Cafe_NET_API.Helper
 {
@@ -32,6 +34,20 @@ namespace Cafe_NET_API.Helper
             string uuidHex = BitConverter.ToString(uuidByteArray).Replace("-", string.Empty);
 
             return uuidHex;
+        }
+
+        public static string ToHash(this string password)
+        {
+            SHA512 sha512 = SHA512.Create();
+            sha512.ComputeHash(Encoding.ASCII.GetBytes(Convert.ToString(password)));
+            var encryptStr = Encoding.ASCII.GetString(sha512.Hash);
+
+            if(!string.IsNullOrWhiteSpace(encryptStr) && encryptStr.Length > 64)
+            {
+                encryptStr = encryptStr.Substring(0, 64);
+            }
+
+            return encryptStr;
         }
     }
 }
