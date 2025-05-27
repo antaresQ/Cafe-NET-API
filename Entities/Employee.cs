@@ -21,7 +21,7 @@ namespace Cafe_NET_API.Entities
         public int Phone_Number { get; set; }
 
         [Required]
-        public bool Is_Login { get; set; } = false;
+        public bool Is_Login_User { get; set; } = false;
 
         [Required]
         [StringLength(64)]
@@ -81,6 +81,7 @@ namespace Cafe_NET_API.Entities
             Start_Date = DateTime.Now;
             Days_Worked = 0;
             Cafe_Id = Guid.Empty;
+            Is_Login_User = false;
         }
 
         public EmployeeDetailView(EmployeeDetail empD)
@@ -90,6 +91,8 @@ namespace Cafe_NET_API.Entities
             Email_Address = empD.Email_Address;
             Phone_Number = empD.Phone_Number;
             Gender = empD.Gender;
+            Is_Login_User = empD.Is_Login_User;
+
             Cafe = empD.Cafe;
             Start_Date = empD.Start_Date;
             Cafe_Id = new Guid(empD.Cafe_Id_String);

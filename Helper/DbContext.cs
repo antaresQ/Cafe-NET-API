@@ -45,7 +45,7 @@ namespace Cafe_NET_API.Helper
                         phone_number INTEGER,
                         gender VARCHAR(5),
                         password NVARCHAR(64),
-                        is_login INTEGER,
+                        is_login_user INTEGER,
                         start_date DATE
                     );
                 ";
@@ -109,36 +109,38 @@ namespace Cafe_NET_API.Helper
                 var checkIfCafeTableIsEmpty = @"SELECT COUNT()=0 FROM Cafe";
 
                 var insertCafes = @"INSERT INTO 'Cafe' ('id','name','description','logo','location') 
-                                    VALUES ('892101B4-BF3B-4F5B-9DA6-ACAA6E00ED95','HV Cafe','Yoghurt','','Horlan Village'),
-                                             ('9FA909BA-B3BD-4FB2-9731-3FE4F6EC0944','Cat Cafe','Catastrophy',NULL,'Feli City'),
-                                             ('525ADD2C-F238-42A7-A079-E8379D97E228','Nest Cafe','Coffee place','','Horlan Village'),
-                                             ('642D7EEF-69E5-4B4C-98D7-6A69D95B9B51','Dog Cafe','Hot Dog Dogmatism',NULL,'Feli City'),
-                                             ('1E5343FC-9D82-44E5-B42C-45F67A5BF6F7','Squirrel Cafe','Nuts only but no mutts allowed',NULL,'Timber Town')";
+                                    VALUES ('1F56319E-71C2-4E09-B305-64C56F5B429E','Flagship Cafe','Cafes HQ','','Feli City'),
+                                           ('892101B4-BF3B-4F5B-9DA6-ACAA6E00ED95','HV Cafe','Yoghurt','','Horlan Village'),
+                                           ('9FA909BA-B3BD-4FB2-9731-3FE4F6EC0944','Cat Cafe','Catastrophy',NULL,'Feli City'),
+                                           ('525ADD2C-F238-42A7-A079-E8379D97E228','Nest Cafe','Coffee place','','Horlan Village'),
+                                           ('642D7EEF-69E5-4B4C-98D7-6A69D95B9B51','Dog Cafe','Hot Dog Dogmatism',NULL,'Feli City'),
+                                           ('1E5343FC-9D82-44E5-B42C-45F67A5BF6F7','Squirrel Cafe','Nuts only but no mutts allowed',NULL,'Timber Town')";
 
 
                 var checkIfEmployeeTableIsEmpty = @"SELECT COUNT()=0 FROM Employee";
 
-                var insertEmployees = $@"INSERT INTO 'Employee' ('id','name','email_Address','phone_number','gender','start_date', 'is_login', 'password') 
-                                        VALUES ('UIAAA0001E','Manager','manager@cafeco.com',98765432,'Male','2022-01-01T00:00:00.000Z', '1' , '{"!password123".ToHash()}'),
-                                                 ('UICFD7927E','Hor Fun Man','man@horfun.com',91234567,'Male','2023-09-17T00:53:26.078Z', '0' , ''),
-                                                 ('UI476E6EFA','Tabby Tan','tabby@tan.com',98765432,'Female','2023-05-01T03:13:43.146Z', '0' , ''),
-                                                 ('UI948C603A','Chip','chip@rescuerangers.com',98785132,'Male','1991-01-01T00:00:00.000Z', '0' , ''),
-                                                 ('UI8BB99BB4','Dale','dale@rescuerangers.com',98785133,'Male','1991-01-01T00:00:00.000Z', '0' , ''),
-                                                 ('UI814BE4C2','Khao Manee','khao_manee@akukatsini.com',81234567,'Male','2020-03-01T03:20:18.061Z', '0' , ''),
-                                                 ('UI9EF3AFE6','You Get Ou','you_get_ou@ofthisplace.com',80020078,'Female','2021-12-01T03:20:18.061Z', '0' , ''),
-                                                 ('UIFD93111A','Com Onin','com_onin@andsitdown.com',90220076,'Female','2010-05-22T03:20:18.061Z', '0' , '')";
+                var insertEmployees = $@"INSERT INTO 'Employee' ('id','name','email_Address','phone_number','gender','start_date', 'is_login_user', 'password') 
+                                        VALUES ('UIAAA0001E','Manager','manager@cafeco.com',98765432,'Male','2018-01-01T00:00:00.000Z', '1' , '{"!password123".ToHash()}'),
+                                               ('UICFD7927E','Hor Fun Man','man@horfun.com',91234567,'Male','2023-09-17T00:53:26.078Z', '0' , ''),
+                                               ('UI476E6EFA','Tabby Tan','tabby@tan.com',98765432,'Female','2023-05-01T03:13:43.146Z', '0' , ''),
+                                               ('UI948C603A','Chip','chip@rescuerangers.com',98785132,'Male','2022-01-01T00:00:00.000Z', '0' , ''),
+                                               ('UI8BB99BB4','Dale','dale@rescuerangers.com',98785133,'Male','2022-01-01T00:00:00.000Z', '0' , ''),
+                                               ('UI814BE4C2','Khao Manee','khao_manee@akukatsini.com',81234567,'Male','2020-03-01T03:20:18.061Z', '0' , ''),
+                                               ('UI9EF3AFE6','You Get Ou','you_get_ou@ofthisplace.com',80020078,'Female','2021-12-01T03:20:18.061Z', '0' , ''),
+                                               ('UIFD93111A','Com Onin','com_onin@andsitdown.com',90220076,'Female','2010-05-22T03:20:18.061Z', '0' , '')";
 
 
                 var checkIfCafeEmployeeTableIsEmpty = @"SELECT COUNT()=0 FROM CafeEmployee";
 
                 var insertCafeEmployees = @"INSERT INTO 'CafeEmployee' ('id','cafe_id','employee_id') 
-                                            VALUES (6,'525ADD2C-F238-42A7-A079-E8379D97E228','UICFD7927E'),
-                                                     (10,'9FA909BA-B3BD-4FB2-9731-3FE4F6EC0944','UI476E6EFA'),
-                                                     (11,'1E5343FC-9D82-44E5-B42C-45F67A5BF6F7','UI948C603A'),
-                                                     (12,'1E5343FC-9D82-44E5-B42C-45F67A5BF6F7','UI8BB99BB4'),
-                                                     (13,'9FA909BA-B3BD-4FB2-9731-3FE4F6EC0944','UI814BE4C2'),
-                                                     (14,'892101B4-BF3B-4F5B-9DA6-ACAA6E00ED95','UI9EF3AFE6'),
-                                                     (15,'892101B4-BF3B-4F5B-9DA6-ACAA6E00ED95','UIFD93111A')";
+                                            VALUES (5,'1F56319E-71C2-4E09-B305-64C56F5B429E','UIAAA0001E'),
+                                                   (6,'525ADD2C-F238-42A7-A079-E8379D97E228','UICFD7927E'),
+                                                   (10,'9FA909BA-B3BD-4FB2-9731-3FE4F6EC0944','UI476E6EFA'),
+                                                   (11,'1E5343FC-9D82-44E5-B42C-45F67A5BF6F7','UI948C603A'),
+                                                   (12,'1E5343FC-9D82-44E5-B42C-45F67A5BF6F7','UI8BB99BB4'),
+                                                   (13,'9FA909BA-B3BD-4FB2-9731-3FE4F6EC0944','UI814BE4C2'),
+                                                   (14,'892101B4-BF3B-4F5B-9DA6-ACAA6E00ED95','UI9EF3AFE6'),
+                                                   (15,'892101B4-BF3B-4F5B-9DA6-ACAA6E00ED95','UIFD93111A')";
 
                 using (var command = new SQLiteCommand(_sqliteConn))
                 {

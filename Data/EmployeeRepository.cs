@@ -22,14 +22,14 @@ namespace Cafe_NET_API.Data
             {
                 string id = $"UI{Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()}";
 
-                string query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender, start_date, is_login)
+                string query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender, start_date, is_login_user)
                                 VALUES('{id}', '{employee.Name}', '{employee.Email_Address}', '{employee.Phone_Number}', '{employee.Gender.ToString()}', '{employee.Start_Date.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}', '0')";
 
-                if (employee.Is_Login) 
+                if (employee.Is_Login_User) 
                 {
                     employee.Password = string.IsNullOrWhiteSpace(employee.Password) ? Guid.NewGuid().ToString() : employee.Password.ToHash();
 
-                    query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender, start_date, is_login, password)
+                    query = @$"INSERT INTO Employee(id, name, email_address, phone_number, gender, start_date, is_login_user, password)
                                 VALUES('{id}', '{employee.Name}', '{employee.Email_Address}', '{employee.Phone_Number}', '{employee.Gender.ToString()}', '{employee.Start_Date.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")}', '1', '{employee.Password})";
 
                 }
@@ -55,10 +55,10 @@ namespace Cafe_NET_API.Data
                                          e.email_Address, 
                                          e.phone_number, 
                                          e.email_Address, 
-                                         e.start_date, 
+                                         e.start_date,
+                                         e.is_login_user, 
                                          c.name as Cafe, 
-                                         c.id as cafe_Id_String,
-                                         c.is_login
+                                         c.id as cafe_Id_String
                                 FROM CafeEmployee ce
                                 INNER JOIN Cafe c
                                 ON ce.cafe_id = c.id
@@ -86,10 +86,10 @@ namespace Cafe_NET_API.Data
                                          e.email_Address, 
                                          e.phone_number, 
                                          e.email_Address, 
-                                         e.start_date, 
+                                         e.start_date,
+                                         e.is_login_user, 
                                          c.name as cafe, 
-                                         c.id as cafe_Id_String,
-                                         c.is_login
+                                         c.id as cafe_Id_String
                                 FROM CafeEmployee ce
                                 INNER JOIN Cafe c
                                     ON ce.cafe_id = c.id
